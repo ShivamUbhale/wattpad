@@ -1,0 +1,1522 @@
+/* SALON — self-hosted styles (works without Tailwind CDN) */
+:root {
+  --salon-bg: #0a0a0a;
+  --salon-card: #141418;
+  --salon-card-edge: rgba(255, 255, 255, 0.08);
+  --salon-text: #e4e4e7;
+  --salon-muted: #a1a1aa;
+  --salon-dim: #71717a;
+  --salon-violet: #a78bfa;
+  --salon-violet-deep: #7c3aed;
+  --salon-rose: #fda4af;
+  --salon-rose-deep: #be123c;
+  --salon-gold: #e7c8a8;
+  --salon-font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --salon-font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.salon-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--salon-font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--salon-text);
+  background-color: var(--salon-bg);
+  background-image:
+    linear-gradient(180deg, rgba(10, 10, 12, 0.92) 0%, rgba(10, 10, 14, 0.97) 100%),
+    url("../images/salon-ambient.svg");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ——— Top nav ——— */
+.salon-topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 10, 12, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+.salon-topnav__inner {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.salon-topnav__menu-btn {
+  padding: 0.5rem;
+  color: var(--salon-dim);
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.salon-topnav__menu-btn:hover {
+  color: var(--salon-violet);
+}
+
+.salon-topnav__logo {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  color: #ddd6fe;
+  text-decoration: none;
+}
+
+.salon-topnav__logo:hover {
+  color: #fff;
+}
+
+.salon-topnav__enter {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  color: #ddd6fe;
+  text-decoration: none;
+}
+
+.salon-topnav__enter:hover {
+  background: rgba(139, 92, 246, 0.12);
+}
+
+.salon-topnav__exit {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--salon-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.salon-topnav__exit:hover {
+  color: #fda4af;
+}
+
+.salon-topnav__drawer {
+  display: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0f0f12;
+  padding: 1rem;
+}
+
+.salon-topnav__drawer.is-open {
+  display: block;
+}
+
+.salon-topnav__drawer a {
+  display: block;
+  padding: 0.35rem 0;
+  color: #d4d4d8;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.salon-topnav__drawer a:hover {
+  color: #fff;
+}
+
+.salon-topnav__drawer button {
+  font-size: 0.875rem;
+  color: #fda4af;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem 0;
+}
+
+/* ——— Main shell ——— */
+.salon-main {
+  padding-top: 4.5rem;
+  padding-bottom: 2rem;
+  min-height: 100vh;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+.salon-body--auth .salon-main {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 5rem;
+}
+
+/* ——— Messages ——— */
+.salon-messages {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(92vw, 24rem);
+  pointer-events: none;
+}
+
+.salon-msg {
+  pointer-events: auto;
+  border-radius: 1rem;
+  border: 1px solid;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.salon-msg--error {
+  border-color: rgba(244, 63, 94, 0.4);
+  background: rgba(69, 10, 24, 0.85);
+  color: #fecdd3;
+}
+
+.salon-msg--success {
+  border-color: rgba(52, 211, 153, 0.4);
+  background: rgba(6, 46, 32, 0.85);
+  color: #a7f3d0;
+}
+
+.salon-msg--default {
+  border-color: rgba(139, 92, 246, 0.35);
+  background: rgba(24, 24, 27, 0.92);
+  color: #f4f4f5;
+}
+
+/* ——— Auth layout (login / register) ——— */
+.salon-auth-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 4.5rem);
+}
+
+.salon-auth-visual {
+  min-height: 200px;
+  background:
+    linear-gradient(180deg, transparent 40%, rgba(10, 10, 12, 0.9) 100%),
+    url("../images/salon-auth-visual.svg") center center / cover no-repeat;
+}
+
+.salon-auth-form-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1rem 3rem;
+}
+
+@media (min-width: 900px) {
+  .salon-auth-layout {
+    flex-direction: row;
+    min-height: calc(100vh - 3.5rem);
+  }
+
+  .salon-auth-visual {
+    flex: 1;
+    min-height: auto;
+    min-width: 0;
+  }
+
+  .salon-auth-form-wrap {
+    width: 26rem;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(90deg, transparent, rgba(10, 10, 12, 0.5));
+  }
+}
+
+/* ——— Card & typography ——— */
+.salon-brand-sm {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: #ddd6fe;
+  margin: 0 0 0.25rem;
+}
+
+.salon-eyebrow {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(253, 164, 175, 0.65);
+  margin: 0 0 0.5rem;
+}
+
+.salon-h1 {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 2rem;
+}
+
+.salon-card {
+  width: 100%;
+  max-width: 22rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--salon-card-edge);
+  background: rgba(20, 20, 24, 0.75);
+  backdrop-filter: blur(16px);
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.salon-field {
+  margin-bottom: 1.75rem;
+}
+
+.salon-field--divider {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.salon-label--spaced {
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.salon-genre-label {
+  font-size: 0.875rem;
+  color: #d4d4d8;
+}
+
+.salon-btn-crimson--spaced {
+  margin-top: 1rem;
+}
+
+.salon-field__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.salon-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--salon-dim);
+}
+
+.salon-label-hint {
+  font-size: 0.5625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #52525b;
+}
+
+.salon-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #fafafa;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #3f3f46;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.salon-input::placeholder {
+  color: #52525b;
+}
+
+.salon-input:focus {
+  border-bottom-color: var(--salon-violet-deep);
+}
+
+.salon-input--boxed {
+  border: 1px solid #27272a !important;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem !important;
+}
+
+.salon-input--boxed:focus {
+  border-color: var(--salon-violet-deep) !important;
+}
+
+.salon-lede {
+  font-size: 0.875rem;
+  color: var(--salon-dim);
+  margin: -1rem 0 1.5rem;
+  max-width: 28rem;
+  line-height: 1.5;
+}
+
+.salon-error {
+  color: #fb7185;
+  font-size: 0.75rem;
+  margin: 0.35rem 0 0;
+}
+
+.salon-btn-primary {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  color: #0a0a0a;
+  background: linear-gradient(90deg, #8b5cf6, #d946ef, #8b5cf6);
+  background-size: 200% auto;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.salon-btn-primary:hover:not(:disabled) {
+  opacity: 0.95;
+}
+
+.salon-btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.salon-divider {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.salon-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.salon-divider span {
+  position: relative;
+  padding: 0 0.75rem;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #52525b;
+  background: var(--salon-bg);
+}
+
+.salon-oauth-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.salon-oauth-placeholder {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #71717a;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+.salon-footnote {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--salon-dim);
+  margin-top: 2rem;
+}
+
+.salon-footnote a {
+  color: #fda4af;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.salon-footnote a:hover {
+  color: #fecdd3;
+}
+
+.salon-alert {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  background: rgba(50, 10, 20, 0.5);
+  color: #fecdd3;
+  padding: 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ——— Footer ——— */
+.salon-footer {
+  margin-top: 4rem;
+  padding: 3rem 1.5rem 7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #050506;
+}
+
+.salon-footer__title {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.75rem;
+  text-align: center;
+  color: rgba(221, 214, 254, 0.85);
+  margin: 0 0 1rem;
+}
+
+.salon-footer__tag {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--salon-dim);
+  max-width: 28rem;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.salon-footer__grid {
+  max-width: 28rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--salon-dim);
+}
+
+.salon-footer__grid strong {
+  display: block;
+  color: rgba(253, 164, 175, 0.55);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.salon-footer__grid ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.875rem;
+  color: #a1a1aa;
+}
+
+.salon-footer__grid li {
+  margin-bottom: 0.5rem;
+  opacity: 0.65;
+}
+
+.salon-footer__copy {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #52525b;
+  margin-top: 2.5rem;
+}
+
+/* ——— Bottom nav ——— */
+.salon-dock {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(9, 9, 11, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
+  backdrop-filter: blur(12px);
+}
+
+.salon-dock a,
+.salon-dock span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem;
+  border-radius: 9999px;
+  color: #71717a;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.salon-dock a:hover {
+  color: #d4d4d8;
+}
+
+.salon-dock__active {
+  color: #c4b5fd !important;
+  background: rgba(139, 92, 246, 0.18) !important;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.35);
+}
+
+.salon-dock__active--glow {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.35), 0 0 0 1px rgba(139, 92, 246, 0.4) !important;
+}
+
+.salon-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: currentColor;
+  fill: none;
+}
+
+.salon-icon path {
+  stroke: currentColor;
+}
+
+/* ——— Home & content pages ——— */
+.salon-hero {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  min-height: 20rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+}
+
+.salon-hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+.salon-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.salon-hero__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(91, 33, 182, 0.35) 0%,
+    rgba(10, 10, 10, 0.9) 45%,
+    rgba(127, 29, 29, 0.25) 100%
+  );
+}
+
+.salon-hero__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #0a0a0a 0%, rgba(10, 10, 10, 0.5) 50%, transparent 100%);
+}
+
+.salon-hero__body {
+  position: relative;
+  padding: 2rem;
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.salon-hero__eyebrow {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(253, 164, 175, 0.75);
+  margin-bottom: 0.75rem;
+}
+
+.salon-hero__title {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  color: #fff;
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+
+.salon-hero__desc {
+  font-size: 0.875rem;
+  color: var(--salon-muted);
+  line-height: 1.6;
+  max-width: 36rem;
+  margin: 0 0 1.5rem;
+}
+
+.salon-btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: #18181b;
+  background: linear-gradient(90deg, #a78bfa, #e879f9, #a78bfa);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
+}
+
+.salon-btn-cta:hover {
+  opacity: 0.95;
+}
+
+.salon-section-title {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+.salon-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.salon-row-head span {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(167, 139, 250, 0.85);
+}
+
+.salon-scroller {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 3rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.salon-trend-card {
+  flex: 0 0 140px;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 24, 27, 0.5);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.salon-trend-card:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.salon-trend-card__img {
+  aspect-ratio: 3 / 4;
+  background: #27272a;
+}
+
+.salon-trend-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.salon-trend-card__body {
+  padding: 0.75rem;
+}
+
+.salon-trend-card__body h3 {
+  font-family: var(--salon-font-serif);
+  font-size: 0.875rem;
+  margin: 0 0 0.25rem;
+  line-height: 1.3;
+  color: #f4f4f5;
+}
+
+.salon-trend-meta {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--salon-dim);
+  margin: 0;
+}
+
+.salon-trend-ch {
+  font-size: 0.625rem;
+  color: rgba(167, 139, 250, 0.85);
+  margin: 0.25rem 0 0;
+}
+
+.salon-story-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.salon-story-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 24, 27, 0.4);
+  overflow: hidden;
+}
+
+.salon-story-card__hero {
+  height: 10rem;
+  background: #27272a;
+  position: relative;
+}
+
+.salon-story-card__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.salon-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(253, 164, 175, 0.95);
+}
+
+.salon-story-card__body {
+  padding: 1.25rem;
+}
+
+.salon-story-card__body h3 {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.salon-story-card__body > p {
+  font-size: 0.875rem;
+  color: var(--salon-muted);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.salon-progress {
+  height: 0.25rem;
+  border-radius: 9999px;
+  background: #27272a;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.salon-progress__bar {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #8b5cf6, #d946ef);
+}
+
+.salon-story-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.salon-btn-block {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  background: rgba(139, 92, 246, 0.75);
+  color: #fff;
+  border: none;
+}
+
+.salon-btn-block:hover {
+  background: #8b5cf6;
+}
+
+.salon-btn-ghost {
+  padding: 0.75rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: #d4d4d8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.salon-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.salon-btn-secondary {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  color: #fafafa;
+  background: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.salon-btn-secondary:hover {
+  background: #3f3f46;
+}
+
+.salon-btn-outline {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: #ddd6fe;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  background: transparent;
+}
+
+.salon-btn-outline:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.salon-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.salon-link-accent {
+  display: block;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #a78bfa;
+  text-decoration: none;
+}
+
+.salon-link-accent:hover {
+  color: #c4b5fd;
+}
+
+@keyframes salon-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.salon-loading {
+  animation: salon-pulse 1.2s ease-in-out infinite;
+}
+
+.salon-history-list {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.salon-history-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.salon-history-list span:first-child {
+  color: #a1a1aa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+}
+
+.salon-history-list .pct {
+  color: rgba(196, 181, 253, 0.95);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.salon-poll-h1 {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0 0 2rem;
+}
+
+.salon-disclaimer {
+  font-size: 0.75rem;
+  color: #52525b;
+  text-align: center;
+  margin-top: 2rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.salon-cta-box {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 24, 27, 0.35);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.salon-cta-box h3 {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.salon-cta-box p {
+  font-size: 0.875rem;
+  color: var(--salon-dim);
+  margin: 0 0 1rem;
+}
+
+.salon-btn-crimson {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  color: #ffe4e6;
+  background: rgba(69, 10, 26, 0.85);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+
+.salon-btn-crimson:hover {
+  background: rgba(89, 15, 32, 0.9);
+}
+
+.salon-btn-crimson:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.salon-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.salon-stat {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 1rem;
+}
+
+.salon-stat strong {
+  display: block;
+  font-family: var(--salon-font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #ddd6fe;
+}
+
+.salon-stat span {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--salon-dim);
+}
+
+/* Chapter read */
+.salon-breadcrumb {
+  margin-bottom: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--salon-dim);
+}
+
+.salon-breadcrumb a {
+  color: #a78bfa;
+  text-decoration: none;
+}
+
+.salon-breadcrumb a:hover {
+  color: #c4b5fd;
+}
+
+.salon-ch-head {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.salon-ch-eyebrow {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--salon-dim);
+  margin-bottom: 0.5rem;
+}
+
+.salon-ch-title {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.salon-ch-rule {
+  width: 4rem;
+  height: 2px;
+  margin: 1.5rem auto 0;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+}
+
+.salon-prose {
+  font-family: var(--salon-font-serif);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #d4d4d8;
+  margin-bottom: 4rem;
+}
+
+.salon-prose p {
+  margin: 0 0 1.25rem;
+}
+
+.salon-dropcap::first-letter {
+  float: left;
+  font-family: var(--salon-font-serif);
+  font-size: 3.25rem;
+  line-height: 0.85;
+  padding-right: 0.5rem;
+  padding-top: 0.15rem;
+  color: #c4b5fd;
+  font-weight: 700;
+}
+
+.salon-ch-actions {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.salon-ch-actions > p {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--salon-muted);
+  margin: 0;
+}
+
+.salon-link-quiet {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #52525b;
+  text-decoration: none;
+  padding-top: 1rem;
+}
+
+.salon-link-quiet:hover {
+  color: #a1a1aa;
+}
+
+/* Poll */
+.salon-poll-option {
+  display: block;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+}
+
+.salon-poll-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.salon-poll-option__box {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 24, 27, 0.5);
+  padding: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.salon-poll-option input:focus-visible + .salon-poll-option__box,
+.salon-poll-option input:checked + .salon-poll-option__box {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+}
+
+.salon-poll-option--peach input:checked + .salon-poll-option__box {
+  background: rgba(69, 10, 26, 0.2);
+}
+
+.salon-poll-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.salon-poll-label--lavender {
+  color: rgba(196, 181, 253, 0.85);
+}
+
+.salon-poll-label--peach {
+  color: rgba(253, 164, 175, 0.75);
+}
+
+.salon-poll-title {
+  font-family: var(--salon-font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.salon-poll-desc {
+  font-size: 0.875rem;
+  color: var(--salon-dim);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.salon-results-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 24, 27, 0.45);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.salon-results-row {
+  margin-bottom: 1.5rem;
+}
+
+.salon-results-row:last-of-type {
+  margin-bottom: 0;
+}
+
+.salon-results-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.salon-bar {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #27272a;
+  overflow: hidden;
+}
+
+.salon-bar__fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.6s ease;
+}
+
+.salon-bar__fill--violet {
+  background: #8b5cf6;
+}
+
+.salon-bar__fill--peach {
+  background: rgba(251, 113, 133, 0.75);
+}
+
+.salon-muted-sm {
+  font-size: 0.5625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #52525b;
+  margin-top: 0.35rem;
+}
+
+.salon-back-link {
+  font-size: 0.75rem;
+  color: #a78bfa;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.salon-back-link:hover {
+  color: #c4b5fd;
+}
+
+/* Register: wider card */
+.salon-card--wide {
+  max-width: 28rem;
+}
+
+.salon-genre-grid label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #27272a;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.salon-genre-grid label:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.salon-genre-grid input {
+  accent-color: #8b5cf6;
+  width: 1rem;
+  height: 1rem;
+}
+.salon-main--reader {
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Instagram link */
+.salon-ig-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #a78bfa;
+  font-size: 0.875rem;
+  transition: 0.25s ease;
+}
+
+.salon-ig-link:hover {
+  color: #c4b5fd;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+/* Instagram icon */
+.salon-ig-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Glow button */
+.salon-btn-follow {
+  display: block;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  color: #0a0a0a;
+
+  background: linear-gradient(90deg, #a78bfa, #e879f9, #a78bfa);
+  background-size: 200% auto;
+
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  transition: 0.3s ease;
+}
+
+.salon-btn-follow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+  background-position: right center;
+}
+/* Instagram link */
+.salon-ig-link {
+  display: flex;
+  align-items: left;
+  gap: 0.5rem;
+  color: #a78bfa;
+  font-size: 0.875rem;
+  transition: 0.25s ease;
+}
+
+.salon-ig-link:hover {
+  color: #c4b5fd;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+/* Instagram icon */
+.salon-ig-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Glow button */
+.salon-btn-follow {
+  display: block;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  color: #0a0a0a;
+font-family: var(--salon-font-sans);
+  background: linear-gradient(90deg, #a78bfa, #e879f9, #a78bfa);
+  background-size: 200% auto;
+
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  transition: 0.3s ease;
+}
+
+.salon-btn-follow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+  background-position: right center;
+}
+@keyframes creatorPulse {
+  0% { box-shadow: 0 0 25px rgba(139,92,246,0.4); }
+  50% { box-shadow: 0 0 60px rgba(139,92,246,0.9); }
+  100% { box-shadow: 0 0 25px rgba(139,92,246,0.4); }
+}
+
+.salon-creator-card {
+  animation: creatorPulse 2.5s infinite;
+}
+.salon-creator-card {
+  position: fixed;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+
+  background: linear-gradient(90deg, rgba(139,92,246,0.2), rgba(232,121,249,0.2));
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(139, 92, 246, 0.4);
+
+  padding: 0.9rem 1.8rem;   /* ⬅ BIGGER */
+  border-radius: 9999px;
+
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.45);
+
+  transition: 0.3s ease;
+}
+
+.salon-creator-card a {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+font-family: var(--salon-font-sans);
+  text-decoration: none;
+  color: #ddd6fe;
+
+  font-size: 0.9rem;        /* ⬅ BIGGER TEXT */
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* Bigger icon */
+.salon-ig-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+/* Hover = premium feel */
+.salon-creator-card:hover {
+  transform: translateX(-50%) translateY(-4px) scale(1.05);
+  box-shadow: 0 0 60px rgba(108, 16, 74, 0.9);
+}
+
+.salon-ig-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: flex-start;
+font-family: var(--salon-card-edge);
+  font-size: 1.1rem;        /* ⬅ BIGGER TEXT */
+  font-weight: 600;         /* ⬅ BOLDER */
+  letter-spacing: 0.08em;
+
+  color: #d6c1c1;
+
+  padding: 0.6rem 1rem;     /* ⬅ MAKES IT FEEL LIKE BUTTON */
+  border-radius: 9999px;
+
+  background: rgba(215, 199, 208, 0.224); /* subtle highlight */
+
+  transition: 0.25s ease;
+}
+
+/* hover effect */
+.salon-ig-link:hover {
+  color: #fff;
+  background: rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+  transform: translateX(4px);
+}
+.salon-ig-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Collective will — {{ story.title }}{% endblock %}
+
+{% block content %}
+<p class="salon-ch-eyebrow" style="margin-bottom:0.35rem;">Current trajectory</p>
+<h1 class="salon-poll-h1" style="margin-bottom:0.5rem;">The echoes of collective will</h1>
+<p class="salon-poll-desc" style="margin-bottom:2rem;">You stood at this threshold. Here is how the Salon chose to proceed.</p>
+
+<div class="salon-results-card">
+    <p class="salon-poll-title" style="font-size:1.125rem;margin-bottom:1.5rem;color:#e4e4e7;">{{ poll.prompt_heading }}</p>
+    {% for row in option_rows %}
+    {% with o=row.option %}
+    <div class="salon-results-row">
+        <div class="salon-results-meta">
+            <span style="{% if user_vote.option_id == o.id %}color:#ddd6fe;font-weight:600;{% endif %}">{{ o.title }}</span>
+            <span style="{% if o.id == winning_option_id %}color:#c4b5fd;{% else %}color:#71717a;{% endif %}font-variant-numeric:tabular-nums;">{{ row.percent }}%</span>
+        </div>
+        <div class="salon-bar">
+            <div class="salon-bar__fill {% if o.theme == 'peach' %}salon-bar__fill--peach{% else %}salon-bar__fill--violet{% endif %}" style="width: {{ row.percent }}%"></div>
+        </div>
+        <p class="salon-muted-sm">
+            {% if o.id == winning_option_id %}Majority consent{% else %}The few{% endif %}
+            {% if user_vote.option_id == o.id %} · Your echo{% endif %}
+        </p>
+    </div>
+    {% endwith %}
+    {% endfor %}
+    <p class="salon-poll-desc" style="margin-top:1.5rem;display:flex;align-items:center;gap:0.5rem;">
+        <svg class="salon-icon" style="width:1rem;height:1rem;opacity:0.6;" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span><strong style="color:#d4d4d8;">{{ total_votes }}</strong> souls have passed this threshold.</span>
+    </p>
+</div>
+
+{% if history %}
+<div style="margin-bottom:2rem;">
+    <p class="salon-muted-sm" style="margin-bottom:0.75rem;letter-spacing:0.15em;">Historical resonance</p>
+    <ul class="salon-history-list">
+        {% for h in history %}
+        <li>
+            <span>{{ h.label }}</span>
+            <span class="pct">{{ h.percent }}%</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if next_chapter %}
+<a href="{% url 'chapter_detail' story.id next_chapter.chapter_number %}" class="salon-btn-primary" style="margin-bottom:0.75rem;">Continue the story</a>
+{% endif %}
+<a href="{% url 'chapter_detail' story.id chapter.chapter_number %}" class="salon-link-quiet">Return to chapter</a>
+{% endblock %}

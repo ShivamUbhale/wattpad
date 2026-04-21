@@ -1,0 +1,27 @@
+<header class="salon-topnav">
+    <div class="salon-topnav__inner">
+        <button type="button" id="salon-menu-btn" class="salon-topnav__menu-btn" aria-expanded="false" aria-label="Menu">
+            <svg class="salon-icon" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="{% url 'home' %}" class="salon-topnav__logo">SALON</a>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="salon-topnav__exit">Exit</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="salon-topnav__enter">Enter</a>
+        {% endif %}
+    </div>
+    <div id="salon-mobile-menu" class="salon-topnav__drawer">
+        <a href="{% url 'home' %}">Library</a>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                <button type="submit">Sign out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Sign in</a>
+            <a href="{% url 'register' %}">Join the guild</a>
+        {% endif %}
+    </div>
+</header>

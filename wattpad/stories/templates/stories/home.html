@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}SALON — Library{% endblock %}
+
+{% block content %}
+<section class="salon-hero">
+    {% if featured_story and featured_story.cover_image %}
+    <div class="salon-hero__media">
+        <img src="{{ featured_story.cover_image.url }}" alt="">
+    </div>
+    {% else %}
+    <div class="salon-hero__media salon-hero__gradient"></div>
+    {% endif %}
+    <div class="salon-hero__fade"></div>
+    <div class="salon-hero__body">
+        <p class="salon-hero__eyebrow">Featured narrative</p>
+        <h1 class="salon-hero__title">
+            {% if featured_story %}{{ featured_story.title }}{% else %}The Midnight Salon{% endif %}
+        </h1>
+        <p class="salon-hero__desc">
+            {% if featured_story %}{{ featured_story.description|truncatewords:28 }}{% else %}Stories that shift when the crowd chooses—read the first chapter free, then offer your echo to unlock what comes next.{% endif %}
+        </p>
+        {% if featured_story %}
+        <a href="{% url 'chapter_detail' featured_story.id 1 %}" class="salon-btn-cta">
+            Begin the journey
+            <svg class="salon-icon" style="width:1rem;height:1rem;" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+        {% endif %}
+    </div>
+</section>
+
+<section id="discover" class="scroll-mt" style="scroll-margin-top:5rem;">
+    <div class="salon-row-head">
+        <h2 class="salon-section-title" style="margin:0;">Trending echoes</h2>
+        <span>View all</span>
+    </div>
+    <div class="salon-scroller">
+        {% for s in trending_stories %}
+        <a href="{% url 'chapter_detail' s.id 1 %}" class="salon-trend-card">
+            <div class="salon-trend-card__img">
+                {% if s.cover_image %}
+                <img src="{{ s.cover_image.url }}" alt="">
+                {% endif %}
+            </div>
+            <div class="salon-trend-card__body">
+                <h3>{{ s.title }}</h3>
+                <p class="salon-trend-meta">{{ s.genre.name }}</p>
+                <p class="salon-trend-ch">{{ s.chapters.count }} ch</p>
+            </div>
+        </a>
+        {% empty %}
+        <p class="salon-trend-meta">No stories yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="threshold" class="scroll-mt" style="scroll-margin-top:5rem;">
+    <h2 class="salon-section-title">Latest revelations</h2>
+    <p class="salon-trend-meta" style="margin-bottom:1.5rem;letter-spacing:0.2em;">Your library</p>
+
+    <div class="salon-story-list">
+        {% for item in story_rows %}
+        {% with s=item.story %}
+        <article class="salon-story-card">
+            <div class="salon-story-card__hero">
+                {% if s.cover_image %}
+                <img src="{{ s.cover_image.url }}" alt="">
+                {% endif %}
+                <span class="salon-tag">{{ s.genre.name }}</span>
+            </div>
+            <div class="salon-story-card__body">
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.description }}</p>
+                {% if item.progress %}
+                <div class="salon-progress">
+                    <div class="salon-progress__bar" style="width: {{ item.percentage|stringformat:'.0f' }}%"></div>
+                </div>
+                <p class="salon-trend-meta" style="margin-bottom:1rem;">{{ item.percentage|floatformat:0 }}% resonance · {{ item.total_chapters }} chapters</p>
+                {% endif %}
+                <div class="salon-story-actions">
+                    <a href="{% url 'chapter_detail' s.id 1 %}" class="salon-btn-block">
+                        {% if item.progress and item.progress.highest_unlocked_chapter_number > 1 %}Continue{% else %}Read{% endif %}
+                    </a>
+                    {% if user.is_authenticated and item.progress %}
+                    <a href="{% url 'chapter_detail' s.id item.progress.highest_unlocked_chapter_number %}" class="salon-btn-ghost">Resume</a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endwith %}
+        {% empty %}
+        <p style="text-align:center;color:#71717a;padding:3rem;">The shelves are quiet. Seed the database to begin.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="salon-cta-box">
+    <h3>Share your own shadows</h3>
+    <p>Join the guild—vote, unlock, and bend the canon with every chapter.</p>
+    {% if not user.is_authenticated %}
+    <a href="{% url 'register' %}" class="salon-btn-crimson">Join the guild</a>
+    {% endif %}
+</section>
+
+<section class="salon-stats">
+    <div class="salon-stat">
+        <strong>{{ vote_count }}</strong>
+        <span>Resonating hearts</span>
+    </div>
+    <div class="salon-stat">
+        <strong>{{ author_count }}</strong>
+        <span>Authors in the dark</span>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SALON{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/salon.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}salon-body{% endblock %}">
+    {% include 'partials/salon_nav.html' %}
+
+    {% if messages %}
+    <div class="salon-messages">
+        {% for message in messages %}
+        <div class="salon-msg {% if message.tags == 'error' %}salon-msg--error{% elif message.tags == 'success' %}salon-msg--success{% else %}salon-msg--default{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="salon-main salon-main--reader">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'partials/salon_footer.html' %}
+    {% include 'partials/salon_bottom_nav.html' %}
+
+    <script>
+        (function () {
+            var btn = document.getElementById('salon-menu-btn');
+            var menu = document.getElementById('salon-mobile-menu');
+            if (btn && menu) {
+                btn.addEventListener('click', function () {
+                    var open = menu.classList.toggle('is-open');
+                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            }
+        })();
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

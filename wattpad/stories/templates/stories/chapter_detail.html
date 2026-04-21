@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}{{ story.title }} — Ch. {{ chapter.chapter_number }}{% endblock %}
+
+{% block content %}
+<nav class="salon-breadcrumb">
+    <a href="{% url 'home' %}">Library</a>
+    <span> / </span>
+    <span style="color:#a1a1aa;">{{ story.title }}</span>
+</nav>
+
+<header class="salon-ch-head">
+    <p class="salon-ch-eyebrow">Chapter {{ chapter.chapter_number }} / {{ total_chapters }}</p>
+    <h1 class="salon-ch-title">{{ chapter.title }}</h1>
+    <div class="salon-ch-rule"></div>
+</header>
+
+<article class="salon-prose salon-dropcap">
+    {{ chapter.content|linebreaks }}
+</article>
+
+<section class="salon-ch-actions">
+    {% if not user.is_authenticated and next_chapter %}
+        <p>The next threshold requires a name in the ledger.</p>
+        <a href="{% url 'login' %}?next={{ request.path|urlencode }}" class="salon-btn-primary">Enter to continue</a>
+    {% elif user.is_authenticated and needs_vote %}
+        <p>
+            {% if next_chapter %}Offer your echo—the collective unlocks the next chapter.{% else %}Leave your echo—the ritual is not yet closed.{% endif %}
+        </p>
+        <a href="{% url 'poll_view' story.id chapter.chapter_number %}" class="salon-btn-primary">Cross the threshold</a>
+        {% if next_chapter %}
+        <p class="salon-muted-sm" style="text-align:center;">Vote required to open chapter {{ next_chapter.chapter_number }}</p>
+        {% endif %}
+    {% elif user.is_authenticated and poll and user_vote %}
+        <div class="salon-stack">
+            <a href="{% url 'poll_results' story.id chapter.chapter_number %}" class="salon-btn-outline">See collective will</a>
+            {% if next_chapter and can_read_next %}
+            <a href="{% url 'chapter_detail' story.id next_chapter.chapter_number %}" class="salon-btn-secondary">Next chapter →</a>
+            {% endif %}
+        </div>
+    {% elif user.is_authenticated and next_chapter and can_read_next %}
+        <a href="{% url 'chapter_detail' story.id next_chapter.chapter_number %}" class="salon-btn-secondary">Next chapter →</a>
+    {% elif not next_chapter %}
+        <p style="font-family:var(--salon-font-serif);font-style:italic;text-align:center;color:#a1a1aa;">This thread rests—for now.</p>
+        <a href="{% url 'home' %}" class="salon-link-accent">Return to the library</a>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="salon-link-quiet">Save & exit</a>
+</section>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Initiation — SALON{% endblock %}
+{% block body_class %}salon-body salon-body--auth{% endblock %}
+
+{% block content %}
+<div class="salon-auth-layout">
+    <div class="salon-auth-visual" role="img" aria-label=""></div>
+    <div class="salon-auth-form-wrap">
+        <div>
+            <p class="salon-brand-sm">SALON</p>
+            <p class="salon-eyebrow">Initiation ritual</p>
+            <h1 class="salon-h1">Welcome back, Storyteller.</h1>
+
+            <div class="salon-card">
+                <form method="post" action="{% url 'login' %}" id="salon-login-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                    {% if form.non_field_errors %}
+                    <div class="salon-alert">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="salon-field">
+                        <div class="salon-field__row">
+                            <label for="id_username" class="salon-label">Identity (username)</label>
+                        </div>
+                        <input id="id_username" name="username" type="text" autocomplete="username" required
+                            class="salon-input"
+                            placeholder="your@midnight.com or username">
+                        {% if form.username.errors %}
+                        <p class="salon-error">{{ form.username.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="salon-field">
+                        <div class="salon-field__row">
+                            <label for="id_password" class="salon-label">Cipher (password)</label>
+                            <span class="salon-label-hint">Forgotten?</span>
+                        </div>
+                        <input id="id_password" name="password" type="password" autocomplete="current-password" required
+                            class="salon-input"
+                            placeholder="••••••••">
+                        {% if form.password.errors %}
+                        <p class="salon-error">{{ form.password.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" id="salon-login-btn" class="salon-btn-primary">Login</button>
+                </form>
+
+                <div class="salon-divider"><span>Other thresholds</span></div>
+
+                <div class="salon-oauth-row">
+                    <span class="salon-oauth-placeholder" title="Soon">☁</span>
+                    <span class="salon-oauth-placeholder" title="Soon">◆</span>
+                </div>
+
+                <p class="salon-footnote">
+                    No ledger entry?
+                    <a href="{% url 'register' %}">Join the guild</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var f = document.getElementById('salon-login-form');
+    var b = document.getElementById('salon-login-btn');
+    if (f && b) {
+        f.addEventListener('submit', function () { b.disabled = true; b.textContent = 'Entering…'; });
+    }
+})();
+</script>
+{% endblock %}

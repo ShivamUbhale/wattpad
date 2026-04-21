@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="50%" style="stop-color:#0f0a14"/>
+      <stop offset="100%" style="stop-color:#050508"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+  </defs>
+  <rect width="960" height="1200" fill="url(#sky)"/>
+  <ellipse cx="480" cy="1100" rx="400" ry="180" fill="url(#glow)" filter="url(#blur)" opacity="0.6"/>
+  <!-- Arch / doorway -->
+  <path d="M 200 1150 L 200 520 Q 480 220 760 520 L 760 1150 Z" fill="none" stroke="#4c1d95" stroke-width="3" opacity="0.5"/>
+  <path d="M 260 1150 L 260 560 Q 480 320 700 560 L 700 1150 Z" fill="#0c0a10" stroke="#6d28d9" stroke-width="1" opacity="0.85"/>
+  <!-- Book pedestal light -->
+  <ellipse cx="480" cy="920" rx="120" ry="24" fill="#a78bfa" opacity="0.15"/>
+  <rect x="420" y="780" width="120" height="160" rx="4" fill="#1a1525" stroke="#7c3aed" stroke-width="1" opacity="0.9"/>
+  <rect x="430" y="790" width="100" height="140" fill="#0f0d14"/>
+  <line x1="480" y1="790" x2="480" y2="930" stroke="#4c1d95" stroke-width="0.5" opacity="0.5"/>
+  <!-- Floating motes -->
+  <circle cx="320" cy="400" r="2" fill="#c4b5fd" opacity="0.4"/>
+  <circle cx="620" cy="350" r="1.5" fill="#fda4af" opacity="0.35"/>
+  <circle cx="540" cy="480" r="1" fill="#e9d5ff" opacity="0.5"/>
+  <circle cx="380" cy="620" r="1.5" fill="#c4b5fd" opacity="0.3"/>
+</svg>

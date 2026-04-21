@@ -1,0 +1,17 @@
+asgiref==3.8.1
+Django==5.0.3
+Pillow==10.3.0
+sqlparse==0.4.4
+tzdata==2024.1
+gunicorn==21.2.0
+whitenoise==6.6.0
+dj-database-url==2.1.0
+psycopg2-binary==2.9.9
+pypdf==5.1.0
+# cd c:\Users\user\Desktop\watt\wattpad
+
+# # One pass
+# python manage.py process_story_drop
+
+# # Re-scan every 2 minutes until you stop it (Ctrl+C)
+# python manage.py process_story_drop --watch 120

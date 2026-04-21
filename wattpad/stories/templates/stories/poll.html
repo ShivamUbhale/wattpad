@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Threshold — {{ story.title }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'chapter_detail' story.id chapter.chapter_number %}" class="salon-back-link">← Back to chapter</a>
+
+{% if poll.chapter_label %}
+<p class="salon-eyebrow" style="margin-bottom:0.5rem;">{{ poll.chapter_label }}</p>
+{% endif %}
+<h1 class="salon-poll-h1">{{ poll.prompt_heading }}</h1>
+
+<form method="post" id="salon-vote-form" novalidate>
+    {% csrf_token %}
+    {% for opt in options %}
+    <label class="salon-poll-option{% if opt.theme == 'peach' %} salon-poll-option--peach{% endif %}">
+        <input type="radio" name="option_id" value="{{ opt.id }}" required>
+        <div class="salon-poll-option__box">
+            <p class="salon-poll-label{% if opt.theme == 'peach' %} salon-poll-label--peach{% else %} salon-poll-label--lavender{% endif %}">{{ opt.label }}</p>
+            <p class="salon-poll-title">{{ opt.title }}</p>
+            <p class="salon-poll-desc">{{ opt.description }}</p>
+        </div>
+    </label>
+    {% empty %}
+    <p class="salon-poll-desc">No paths have been inscribed for this threshold yet.</p>
+    {% endfor %}
+
+    {% if options %}
+    <button type="submit" id="salon-vote-btn" class="salon-btn-primary" style="margin-top:0.5rem;">Seal my choice</button>
+    {% endif %}
+</form>
+
+{% if poll.disclaimer %}
+<p class="salon-disclaimer">{{ poll.disclaimer }}</p>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var form = document.getElementById('salon-vote-form');
+    var btn = document.getElementById('salon-vote-btn');
+    if (form && btn) {
+        form.addEventListener('submit', function () {
+            btn.disabled = true;
+            btn.classList.add('salon-loading');
+            btn.textContent = 'Recording…';
+        });
+    }
+})();
+</script>
+{% endblock %}

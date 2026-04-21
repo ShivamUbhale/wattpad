@@ -1,0 +1,7 @@
+# Drop-folder payloads (keep only directory placeholders)
+incoming/*
+!incoming/.gitkeep
+processed/*
+!processed/.gitkeep
+failed/*
+!failed/.gitkeep

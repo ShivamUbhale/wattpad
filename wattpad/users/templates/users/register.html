@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Join the guild — SALON{% endblock %}
+{% block body_class %}salon-body salon-body--auth{% endblock %}
+
+{% block content %}
+<div class="salon-auth-layout">
+    <div class="salon-auth-visual" role="img" aria-label=""></div>
+    <div class="salon-auth-form-wrap">
+        <div>
+            <p class="salon-eyebrow">New initiate</p>
+            <h1 class="salon-h1">Join the guild</h1>
+            <p class="salon-lede">Create your account to vote, unlock chapters, and leave echoes in the canon.</p>
+
+            <div class="salon-card salon-card--wide">
+                <form method="post" action="{% url 'register' %}" id="salon-register-form">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="salon-alert">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        {% if field.name != 'selected_genres' %}
+                        <div class="salon-field">
+                            <label for="{{ field.id_for_label }}" class="salon-label">{{ field.label }}</label>
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                                {% if field.field.required %}required{% endif %}
+                                class="salon-input salon-input--boxed"
+                                placeholder="{{ field.label }}">
+                            {% if field.errors %}<p class="salon-error">{{ field.errors.0 }}</p>{% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="salon-field salon-field--divider">
+                        <p class="salon-label salon-label--spaced">Favourite genres</p>
+                        <div class="salon-genre-grid">
+                            {% for checkbox in form.selected_genres %}
+                            <label>
+                                {{ checkbox.tag }}
+                                <span class="salon-genre-label">{{ checkbox.choice_label }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        {% if form.selected_genres.errors %}
+                        <p class="salon-error">{{ form.selected_genres.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" id="salon-reg-btn" class="salon-btn-crimson salon-btn-crimson--spaced">Join the guild</button>
+                </form>
+
+                <p class="salon-footnote">
+                    Already inside?
+                    <a href="{% url 'login' %}">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var f = document.getElementById('salon-register-form');
+    var b = document.getElementById('salon-reg-btn');
+    if (f && b) {
+        f.addEventListener('submit', function () { b.disabled = true; b.textContent = 'Sealing…'; });
+    }
+})();
+</script>
+{% endblock %}
